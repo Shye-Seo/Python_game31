@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎮 숭구리 레트로 미니게임 아케이드 | Retro Web Mini-Games</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="arcade-container">
+    <header class="arcade-header">
+      <div class="badge">RETRO WEB ARCADE</div>
+      <h1 class="glitch-title">🕹️ 미니게임 모음집</h1>
+      <p class="subtitle">서승혜 님의 레트로 웹 미니게임 컬렉션 · 심심할 때 한 판!</p>
+      
+      <nav class="game-nav">
+        <button class="nav-btn active" data-game="br31">🍦 배스킨라빈스 31</button>
+        <button class="nav-btn" data-game="baseball">⚾ 숫자 야구</button>
+        <button class="nav-btn" data-game="reaction">⚡ 반응속도 테스트</button>
+        <button class="nav-btn" data-game="memory">🎴 카드 짝맞추기</button>
+      </nav>
+    </header>
+
+    <main class="arcade-screen">
+      <!-- GAME 1: 배스킨라빈스 31 -->
+      <section id="game-br31" class="game-section active">
+        <div class="game-card">
+          <div class="game-info">
+            <h2>🍦 배스킨라빈스 31</h2>
+            <p>1개부터 3개까지 숫자를 순서대로 부르세요. 마지막 <strong>31을 부르는 사람</strong>이 패배합니다!</p>
+          </div>
+          
+          <div class="br31-board">
+            <div class="current-number-display">
+              <span class="label">현재 숫자</span>
+              <span id="br31-current-num" class="number">0</span>
+            </div>
+            <div id="br31-log" class="game-log">게임 시작! 숫자를 선택하세요.</div>
+          </div>
+
+          <div class="br31-controls">
+            <button class="btn btn-action" onclick="playBR31(1)">+1 개 부르기</button>
+            <button class="btn btn-action" onclick="playBR31(2)">+2 개 부르기</button>
+            <button class="btn btn-action" onclick="playBR31(3)">+3 개 부르기</button>
+            <button class="btn btn-reset" onclick="resetBR31()">🔄 다시하기</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- GAME 2: 숫자 야구 -->
+      <section id="game-baseball" class="game-section">
+        <div class="game-card">
+          <div class="game-info">
+            <h2>⚾ 3자리 숫자 야구</h2>
+            <p>0~9까지 중복 없는 3자리 숫자를 맞춰보세요! (스트라이크: 위치와 숫자 일치, 볼: 숫자만 일치)</p>
+          </div>
+
+          <div class="baseball-input-group">
+            <input type="text" id="baseball-input" maxlength="3" placeholder="예: 379" onkeypress="if(event.key==='Enter') guessBaseball()">
+            <button class="btn btn-action" onclick="guessBaseball()">투구하기 ⚾</button>
+            <button class="btn btn-reset" onclick="resetBaseball()">🔄 새 게임</button>
+          </div>
+
+          <div id="baseball-history" class="history-list">
+            <div class="history-item header">
+              <span>시도</span>
+              <span>입력 숫자</span>
+              <span>결과</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- GAME 3: 반응속도 테스트 -->
+      <section id="game-reaction" class="game-section">
+        <div class="game-card">
+          <div class="game-info">
+            <h2>⚡ 초고속 반응속도 테스트</h2>
+            <p>화면이 <strong>초록색</strong>으로 바뀌는 순간 빛의 속도로 클릭하세요!</p>
+          </div>
+
+          <div id="reaction-box" class="reaction-screen wait" onclick="handleReactionClick()">
+            <div class="reaction-text">클릭하여 시작하기</div>
+          </div>
+
+          <div id="reaction-result" class="reaction-stats">
+            <div class="stat-box">
+              <span class="stat-label">내 반응속도</span>
+              <span id="reaction-time" class="stat-val">- ms</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label">등급 판정</span>
+              <span id="reaction-tier" class="stat-val">-</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- GAME 4: 카드 뒤집기 기억력 게임 -->
+      <section id="game-memory" class="game-section">
+        <div class="game-card">
+          <div class="game-info">
+            <h2>🎴 카드 짝맞추기 (메모리 게임)</h2>
+            <p>카드를 뒤집어 같은 모양의 이모지 쌍을 모두 찾아보세요!</p>
+            <div class="memory-status">
+              <span>남은 짝: <strong id="memory-remaining">8</strong></span>
+              <span>시도 횟수: <strong id="memory-moves">0</strong></span>
+              <button class="btn btn-sm btn-reset" onclick="resetMemory()">🔄 다시 섞기</button>
+            </div>
+          </div>
+
+          <div id="memory-grid" class="memory-board"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="arcade-footer">
+      <p>© 2026 Seunghye Seo. Crafted with HTML5, CSS3 & Vanilla JS. Play directly on GitHub Pages!</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
